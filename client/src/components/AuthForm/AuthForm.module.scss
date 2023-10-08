@@ -10,6 +10,24 @@
   }
 }
 
+.label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 16px;
+  color: #757575;
+  transition: transform 0.25s ease-in-out, font-size 0.25s ease-in-out,
+    opacity 0.25s ease-in-out;
+  opacity: 0;
+  pointer-events: none; // Add this line
+}
+
+.focused .label {
+  transform: translateY(-24px);
+  font-size: 12px;
+  opacity: 1; // set opacity to 1 when focused or has text
+}
+
 .button {
   background-color: gray;
   border-radius: 9999px;
