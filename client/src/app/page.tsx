@@ -1,7 +1,5 @@
+import AuthForm from '@/components/AuthForm/AuthForm';
+
 export default function Home() {
-  return (
-    <div>
-      <h1>SalarySplit</h1>
-    </div>
-  );
+  return <AuthForm />;
 }
