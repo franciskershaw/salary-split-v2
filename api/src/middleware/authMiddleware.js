@@ -1,3 +1,4 @@
+import asyncHandler from 'express-async-handler';
 import {
   UnauthorizedError,
   NotFoundError,
@@ -7,7 +8,8 @@ import { verifyToken } from '../helper/helper';
 
 import User from '../models/User';
 
-const isLoggedIn = async (req, res, next) => {
+const isLoggedIn = asyncHandler(async (req, res, next) => {
+  console.log('auth middleware');
   let token;
   try {
     if (
@@ -16,10 +18,15 @@ const isLoggedIn = async (req, res, next) => {
     ) {
       // Get token from header
       token = req.headers.authorization.split(' ')[1];
+
       // Verify token
-      const decoded = verifyToken(token, process.env.ACCESS_TOKEN_SECRET);
+      const { payload } = await verifyToken(
+        token,
+        process.env.ACCESS_TOKEN_SECRET
+      );
+
       // Get user from token
-      req.user = await User.findById(decoded._id).select('-password');
+      req.user = await User.findById(payload._id).select('-password');
       next();
     }
 
@@ -44,15 +51,15 @@ const isLoggedIn = async (req, res, next) => {
       );
     }
   }
-};
+});
 
-const isAuthorised = async (req, res, next) => {
+const isAuthorised = asyncHandler(async (req, res, next) => {
   const loggedInUserId = req.user._id;
   const { userId, accountId, transactionId } = req.params;
 
   try {
     if (!loggedInUserId) {
-      throw NotFoundError('User not found');
+      throw new NotFoundError('User not found');
     }
 
     if (userId) {
@@ -98,6 +105,6 @@ const isAuthorised = async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-};
+});
 
 export { isLoggedIn, isAuthorised };

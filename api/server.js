@@ -2,6 +2,7 @@ import express from 'express';
 import connectDb from './src/config/db';
 import 'colors';
 import { errorHandler } from './src/middleware/errorMiddleware';
+import userRoutes from './src/routes/userRoutes';
 
 const PORT = process.env.PORT;
 
@@ -14,6 +15,7 @@ app.use(express.json());
 // Possibly need cookie parser, check back on this one
 
 // Routes
+app.use('/api/users', userRoutes);
 
 // Error handler
 app.use(errorHandler);
