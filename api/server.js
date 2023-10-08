@@ -1,6 +1,7 @@
 import express from 'express';
 import connectDb from './config/db';
 import 'colors';
+import { errorHandler } from './middleware/errorMiddleware';
 
 const PORT = process.env.PORT;
 
@@ -15,8 +16,12 @@ app.use(express.json());
 // Routes
 
 // Error handler
+app.use(errorHandler);
 
 // Welcome message
+app.get('/', (req, res) => {
+  res.status(200).json({ message: 'Welcome to the Salary Split API' });
+});
 
 // Connect to DB, then if successful listen for app
 connectDb()

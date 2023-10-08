@@ -1,6 +1,6 @@
 // Connection function to MongoDb, called on server.js
 
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 mongoose.set('strictQuery', false);
 
 const connectDb = () => {
@@ -11,15 +11,19 @@ const connectDb = () => {
         useUnifiedTopology: true,
       })
       .then((db) => {
-        console.log('-------------------------------------------------------------'.cyan);
+        console.log(
+          '-------------------------------------------------------------'.cyan
+        );
         console.log(`MongoDB Connected: ${db.connection.host}`.cyan);
         resolve(db);
       })
       .catch((err) => {
-        console.error(`Error connecting to MongoDB: ${err.message}`.red.underline.bold);
+        console.error(
+          `Error connecting to MongoDB: ${err.message}`.red.underline.bold
+        );
         reject(err);
       });
   });
 };
 
-module.exports = connectDb;
+export default connectDb;
