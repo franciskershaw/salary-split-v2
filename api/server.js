@@ -1,7 +1,7 @@
 import express from 'express';
-import connectDb from './config/db';
+import connectDb from './src/config/db';
 import 'colors';
-import { errorHandler } from './middleware/errorMiddleware';
+import { errorHandler } from './src/middleware/errorMiddleware';
 
 const PORT = process.env.PORT;
 
