@@ -4,7 +4,7 @@ export interface User {
     username: string;
     name: string;
     monthlySalary: number;
-    transactions: string[];
+    payDaytransactions: string[];
     accounts: string[];
     balanceAccount?: string;
     billsAccount?: string;
