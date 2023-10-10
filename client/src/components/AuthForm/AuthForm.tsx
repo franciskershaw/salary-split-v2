@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import useAuth from '@/hooks/auth/useAuth';
 import styles from './AuthForm.module.scss';
+import FormField from './FormField/FormField';
 
 type AuthType = 'login' | 'register';
 
@@ -10,28 +11,47 @@ interface AuthFormProps {
 }
 
 const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
-  const [username, setUsername] = useState<string>('');
-  const [name, setName] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
-  const [usernameFocused, setUsernameFocused] = useState<boolean>(false);
-  const [passwordFocused, setPasswordFocused] = useState<boolean>(false);
-  const [confirmPasswordFocused, setConfirmPasswordFocused] =
-    useState<boolean>(false);
-  const [nameFocused, setNameFocused] = useState<boolean>(false);
+  const [formData, setFormData] = useState({
+    username: '',
+    name: '',
+    password: '',
+    confirmPassword: '',
+  });
+
+  const [focusState, setFocusState] = useState({
+    username: false,
+    name: false,
+    password: false,
+    confirmPassword: false,
+  });
+
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    setFocusState((prev) => ({ ...prev, [e.target.name]: true }));
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    setFocusState((prev) => ({ ...prev, [e.target.name]: false }));
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const auth = useAuth();
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const loginData = { username, password };
+    const loginData = {
+      username: formData.username,
+      password: formData.username,
+    };
     const registerData = {
-      username,
-      name,
-      password,
+      username: formData.username,
+      name: formData.name,
+      password: formData.name,
     };
     if (type === 'register') {
-      if (password !== confirmPassword) {
+      if (formData.password !== foraData.confirmPassword) {
         console.log("Passwords don't match");
       } else {
         auth.register(registerData);
@@ -43,7 +63,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <div className="">
+      <div>
         <h1 className="text-center p-8 text-xl bg-gray-500">
           {type === 'login'
             ? 'Sign in to SalarySplit'
@@ -56,16 +76,19 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
         <div className="px-8 mt-4 flex-1 flex flex-col justify-center">
           <div
             className={`relative mb-12 ${
-              usernameFocused || username ? styles.focused : ''
+              focusState.username || formData.username ? styles.focused : ''
             }`}>
             <input
               type="text"
               className={styles.inputLine}
-              placeholder={usernameFocused || username ? '' : 'Username'}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              onFocus={() => setUsernameFocused(true)}
-              onBlur={() => setUsernameFocused(false)}
+              placeholder={
+                focusState.username || formData.username ? '' : 'Username'
+              }
+              value={formData.username}
+              onChange={handleChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              name="username"
             />
             <label htmlFor="" className={styles.label}>
               Username
@@ -74,16 +97,17 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
           {type === 'register' && (
             <div
               className={`relative mb-12 ${
-                nameFocused || name ? styles.focused : ''
+                focusState.name || formData.name ? styles.focused : ''
               }`}>
               <input
                 type="text"
                 className={styles.inputLine}
-                placeholder={nameFocused || name ? '' : 'Name'}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                onFocus={() => setNameFocused(true)}
-                onBlur={() => setNameFocused(false)}
+                placeholder={focusState.name || formData.name ? '' : 'Name'}
+                value={formData.name}
+                onChange={handleChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                name="name"
               />
               <label htmlFor="" className={styles.label}>
                 Name
@@ -93,16 +117,19 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
 
           <div
             className={`relative mb-12 ${
-              passwordFocused || password ? styles.focused : ''
+              focusState.password || formData.password ? styles.focused : ''
             }`}>
             <input
               type="password"
               className={styles.inputLine}
-              placeholder={passwordFocused || password ? '' : 'Password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onFocus={() => setPasswordFocused(true)}
-              onBlur={() => setPasswordFocused(false)}
+              placeholder={
+                focusState.password || formData.password ? '' : 'Password'
+              }
+              value={formData.password}
+              onChange={handleChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
+              name="password"
             />
             <label htmlFor="" className={styles.label}>
               Password
@@ -111,20 +138,23 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
           {type === 'register' && (
             <div
               className={`relative mb-12 ${
-                confirmPasswordFocused || confirmPassword ? styles.focused : ''
+                focusState.confirmPassword || formData.confirmPassword
+                  ? styles.focused
+                  : ''
               }`}>
               <input
                 type="password"
                 className={styles.inputLine}
                 placeholder={
-                  confirmPasswordFocused || confirmPassword
+                  focusState.confirmPassword || formData.confirmPassword
                     ? ''
                     : 'Confirm password'
                 }
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                onFocus={() => setConfirmPasswordFocused(true)}
-                onBlur={() => setConfirmPasswordFocused(false)}
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                name="confirmPassword"
               />
               <label htmlFor="" className={styles.label}>
                 Confirm password
