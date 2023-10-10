@@ -25,7 +25,7 @@ const createUser = async (req, res, next) => {
       throw new BadRequestError(error.details[0].message);
     }
 
-    const { username, name, monthlySalary, password } = value;
+    const { username, name, password } = value;
 
     // Check user doesn't already exist
     const userExists = await User.findOne({ username });
@@ -40,7 +40,6 @@ const createUser = async (req, res, next) => {
     const user = await User.create({
       username,
       name,
-      monthlySalary,
       password: hashedPassword,
     });
 
