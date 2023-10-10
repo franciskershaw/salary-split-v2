@@ -3,6 +3,7 @@ import connectDb from './src/config/db';
 import 'colors';
 import { errorHandler } from './src/middleware/errorMiddleware';
 import userRoutes from './src/routes/userRoutes';
+import cors from 'cors';
 
 const PORT = process.env.PORT;
 
@@ -11,6 +12,13 @@ const app = express();
 // Body parser
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  })
+);
 
 // Possibly need cookie parser, check back on this one
 
