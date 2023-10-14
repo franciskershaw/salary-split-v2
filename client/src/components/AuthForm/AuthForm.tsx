@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import useAuth from '@/hooks/auth/useAuth';
 import styles from './AuthForm.module.scss';
-import FormField from './FormField/FormField';
 
 type AuthType = 'login' | 'register';
 
@@ -51,7 +50,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
       password: formData.name,
     };
     if (type === 'register') {
-      if (formData.password !== foraData.confirmPassword) {
+      if (formData.password !== formData.confirmPassword) {
         console.log("Passwords don't match");
       } else {
         auth.register(registerData);
@@ -64,7 +63,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
   return (
     <div className="flex flex-col min-h-screen">
       <div>
-        <h1 className="text-center p-8 text-xl bg-gray-500">
+        <h1 className="text-center p-8 text-xl bg-primary text-white">
           {type === 'login'
             ? 'Sign in to SalarySplit'
             : 'Create a new SalarySplit Account'}

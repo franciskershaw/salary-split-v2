@@ -2,16 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-main {
-  // Hide number arrows
-  input[type='number']::-webkit-outer-spin-button,
-  input[type='number']::-webkit-inner-spin-button,
-  input[type='number'] {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-}
-
 .tw {
   border: black 1px solid;
   background: rgba(200, 200, 200, 0.2);
