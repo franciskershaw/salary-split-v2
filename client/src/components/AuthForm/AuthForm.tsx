@@ -1,7 +1,9 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useAuth from '@/hooks/auth/useAuth';
 import styles from './AuthForm.module.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 type AuthType = 'login' | 'register';
 
@@ -23,6 +25,9 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
     password: false,
     confirmPassword: false,
   });
+
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     setFocusState((prev) => ({ ...prev, [e.target.name]: true }));
@@ -119,7 +124,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
               focusState.password || formData.password ? styles.focused : ''
             }`}>
             <input
-              type="password"
+              type={passwordVisible ? 'text' : 'password'}
               className={styles.inputLine}
               placeholder={
                 focusState.password || formData.password ? '' : 'Password'
@@ -133,6 +138,12 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
             <label htmlFor="" className={styles.label}>
               Password
             </label>
+            <button
+              type="button"
+              onClick={() => setPasswordVisible((prev) => !prev)}
+              className="absolute inset-y-0 right-0 pr-5 flex items-center">
+              <FontAwesomeIcon icon={passwordVisible ? faEyeSlash : faEye} />
+            </button>
           </div>
           {type === 'register' && (
             <div
@@ -142,7 +153,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
                   : ''
               }`}>
               <input
-                type="password"
+                type={confirmPasswordVisible ? 'text' : 'password'}
                 className={styles.inputLine}
                 placeholder={
                   focusState.confirmPassword || formData.confirmPassword
@@ -158,6 +169,14 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
               <label htmlFor="" className={styles.label}>
                 Confirm password
               </label>
+              <button
+                type="button"
+                onClick={() => setConfirmPasswordVisible((prev) => !prev)}
+                className="absolute inset-y-0 right-0 pr-5 flex items-center">
+                <FontAwesomeIcon
+                  icon={confirmPasswordVisible ? faEyeSlash : faEye}
+                />
+              </button>
             </div>
           )}
 
