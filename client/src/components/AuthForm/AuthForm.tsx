@@ -121,7 +121,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
             )}
 
             <div
-              className={`relative mb-12 ${
+              className={`relative ${type === 'login' ? 'mb-8' : 'mb-12'} ${
                 focusState.password || formData.password ? styles.focused : ''
               }`}>
               <input
@@ -142,7 +142,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
               <button
                 type="button"
                 onClick={() => setPasswordVisible((prev) => !prev)}
-                className="absolute inset-y-0 right-0 pr-5 flex items-center">
+                className="absolute inset-y-0 right-0 flex items-center">
                 <FontAwesomeIcon
                   className="text-primary"
                   icon={passwordVisible ? faEyeSlash : faEye}
@@ -151,7 +151,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
             </div>
             {type === 'register' && (
               <div
-                className={`relative mb-12 ${
+                className={`relative mb-8 ${
                   focusState.confirmPassword || formData.confirmPassword
                     ? styles.focused
                     : ''
@@ -176,7 +176,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ type }) => {
                 <button
                   type="button"
                   onClick={() => setConfirmPasswordVisible((prev) => !prev)}
-                  className="absolute inset-y-0 right-0 pr-5 flex items-center">
+                  className="absolute inset-y-0 right-0 flex items-center">
                   <FontAwesomeIcon
                     className="text-primary"
                     icon={confirmPasswordVisible ? faEyeSlash : faEye}
